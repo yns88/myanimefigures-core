@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <ul>
+        {% for anime_obj in watching_list %}
+        <li>{{ anime_obj.title }}<ul>
+            {% if anime_obj.figures.count %}
+            <li>Figures<ul>
+                {% for figure in anime_obj.figures.get_date_ordered %}
+                <li><a href="http://myfigurecollection.net/item/{{ figure.mfc_id }}">{{ figure.name }}</a></li>
+                {% endfor %}
+            </ul></li>
+            {% endif %}
+        </ul></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
