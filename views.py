@@ -16,7 +16,6 @@ FIGURE_SEARCH = 'http://myfigurecollection.net/api.php?mode=search&keywords=%s'
 MAX_ANIMES = 20
 MFC_FIGURE_ROOT_ID = '0'
 FIGURE_CACHE_DURATION = datetime.timedelta(days=1)
-FIGURE_URL = 'http://s1.tsuki-board.net/pics/figure/big/{{ figure.mfc_id }}.jpg'
 
 
 def index(request):
@@ -88,4 +87,4 @@ def recalculate_figures(anime_series):
 
 def user(request, user_id):
     watching_list = get_watching_list(user_id)
-    return render(request, 'anime/user.html', {'watching_list': watching_list})
+    return render(request, 'anime/user_2.html', {'watching_list': watching_list})

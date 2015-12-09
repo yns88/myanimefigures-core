@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+{% load staticfiles %}
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="{% static 'anime/anime.css' %}" />
+</head>
+<body>
+<div class="mainContent">
+    <div class="contentHeader">
+        {{ mal_name }}'s currently watching anime
+    </div>
+    {% for anime_obj in watching_list %}
+    <div class="contentRow">
+        <div class="animeFrame">
+            <div class="gridObj">
+                <div class="gridImage"><img src="{{ anime_obj.image_url }}"/></div>
+                <div class="gridText">{{ anime_obj.title }}</div>
+            </div>
+        </div>
+        <div class="figureFrame">
+            {% for figure in anime_obj.figures.get_date_ordered %}
+            <div class="gridObj">
+                <a href="http://myfigurecollection.net/item/{{ figure.mfc_id }}">
+                    <div class="gridImage"><img src="{{ figure.image_url }}"/></div>
+                    <div class="gridText">{{ figure.name }}</div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+</body>
+</html>

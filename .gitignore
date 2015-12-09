@@ -1,2 +1,4 @@
 *.pyc
 migrations
+node_modules
+npm-debug.log

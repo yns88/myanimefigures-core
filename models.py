@@ -3,6 +3,9 @@ from __future__ import unicode_literals
 from django.db import models
 
 
+FIGURE_URL = 'http://s1.tsuki-board.net/pics/figure/big/%s.jpg'
+
+
 class AnimeManager(models.Manager):
     """
     Object creation / querying helpers.
@@ -49,3 +52,7 @@ class Figure(models.Model):
     last_updated = models.DateTimeField(auto_now=True)
 
     objects = FigureManager()
+
+    @property
+    def image_url(self):
+        return FIGURE_URL % self.mfc_id
