@@ -12,4 +12,3 @@ Installation
 - pip install requirements.txt
 - npm install
 - plug into your django project
-- update your STATICFILES_DIRS to include anime/node_modules
