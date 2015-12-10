@@ -1,0 +1,16 @@
+.animeFrame .gridImage img {
+
+}
+
+.gridImage img {
+    max-width:100%;
+    max-height:200pt;
+}
+
+.figureFrame .gridText {
+    font-size: 9pt;
+}
+.contentHeader {
+    padding-top: 10pt;
+    padding-bottom: 10pt;
+}

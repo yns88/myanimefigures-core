@@ -63,8 +63,8 @@ def recalculate_figures(anime_series):
         if figure.find('root').find('id').text == MFC_FIGURE_ROOT_ID:
             figure_data = figure.find('data')
             release_date_str = figure_data.find('release_date').text
-            if release_date_str:
-                release_date_str = release_date_str.replace('00', '01')
+            if release_date_str and '0000' not in release_date_str:
+                release_date_str = release_date_str.replace('-00', '-01')
                 release_date = dateutil.parser.parse(release_date_str)
             else:
                 release_date = None
@@ -87,4 +87,4 @@ def recalculate_figures(anime_series):
 
 def user(request, user_id):
     watching_list = get_watching_list(user_id)
-    return render(request, 'anime/user_2.html', {'watching_list': watching_list})
+    return render(request, 'anime/user_2.html', {'mal_name': user_id, 'watching_list': watching_list})

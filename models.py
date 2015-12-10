@@ -4,6 +4,7 @@ from django.db import models
 
 
 FIGURE_URL = 'http://s1.tsuki-board.net/pics/figure/big/%s.jpg'
+TRUNCATE_NAME_LEN = 50
 
 
 class AnimeManager(models.Manager):
@@ -56,3 +57,9 @@ class Figure(models.Model):
     @property
     def image_url(self):
         return FIGURE_URL % self.mfc_id
+
+    @property
+    def truncated_name(self):
+        if len(unicode(self.name)) > TRUNCATE_NAME_LEN:
+            return unicode(self.name)[:TRUNCATE_NAME_LEN - 3] + u'...'
+        return self.name
