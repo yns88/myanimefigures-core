@@ -5,7 +5,7 @@ register = template.Library()
 
 @register.inclusion_tag('anime/anime_gridobj.html')
 def show_anime(anime):
-    return {'anime': anime}
+    return {'anime_obj': anime}
 
 
 @register.inclusion_tag('anime/figure_gridobj.html')
