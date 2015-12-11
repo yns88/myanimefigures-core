@@ -15,4 +15,5 @@ setup(
     description="The core app logic for MyAnimeFigures",
     long_description=read('README.md'),
     packages=['anime'],
+    include_package_data=True,
 )
