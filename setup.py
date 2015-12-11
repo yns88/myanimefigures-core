@@ -10,7 +10,7 @@ with open('commit_count') as commit_count_file:
 
 setup(
     name="anime",
-    version="0.0.1-%4d" % git_commit_count,
+    version="0.0.1-%04d" % git_commit_count,
     author="Yunus Rahbar",
     description="The core app logic for MyAnimeFigures",
     long_description=read('README.md'),

@@ -49,7 +49,7 @@ def get_series_obj(anime_xml):
 
 
 def get_recent_figures(mal_ids):
-    mal_figures = Figure.objects.filter(anime__mal_id__in=mal_ids)
+    mal_figures = Figure.objects.filter(animeseries__mal_id__in=mal_ids)
     return mal_figures.order_by('-release_date')[:RECENT_FIGURES_COUNT]
 
 
@@ -78,7 +78,7 @@ def get_anime_list(user_id):
             else:
                 watching_nofigs.append(series)
 
-    all_completed_xml.sort(key=lambda _, last_updated_ts: last_updated_ts, reverse=True)
+    all_completed_xml.sort(key=lambda (_, last_updated_ts): last_updated_ts, reverse=True)
     for anime, _ in all_completed_xml[:RECENTLY_COMPLETED_COUNT]:
         series, figure_count = get_series_obj(anime)
         if figure_count:
