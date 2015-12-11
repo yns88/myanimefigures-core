@@ -3,6 +3,7 @@ import dateutil.parser
 import logging
 from xml.etree import ElementTree
 
+from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
 import requests
 
@@ -13,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 ANIME_LIST_GET = 'http://myanimelist.net/malappinfo.php?u=%s&status=all&type=anime'
 FIGURE_SEARCH = 'http://myfigurecollection.net/api.php?mode=search&keywords=%s'
-RECENTLY_COMPLETED_COUNT = 5
+RECENTLY_COMPLETED_COUNT = 10
 MAX_WATCHING_COUNT = 20
 RECENT_FIGURES_COUNT = 12
 MFC_FIGURE_ROOT_ID = '0'
@@ -50,7 +51,7 @@ def get_series_obj(anime_xml):
 
 def get_recent_figures(mal_ids):
     mal_figures = Figure.objects.filter(animeseries__mal_id__in=mal_ids)
-    return mal_figures.order_by('-release_date')[:RECENT_FIGURES_COUNT]
+    return list(mal_figures.order_by('-release_date')[:RECENT_FIGURES_COUNT])[::-1]
 
 
 def get_anime_list(user_id):
@@ -126,6 +127,18 @@ def recalculate_figures(anime_series):
     anime_series.last_figure_calc = datetime.datetime.utcnow()
     anime_series.save(update_fields=['last_figure_calc'])
     return anime_series, len(figures)
+
+
+def user_lookup(request):
+    mal_lookup = request.POST.get('malLookup', '')
+    if 'myanimelist.net' in mal_lookup:
+        # parse the MAL username from the URL
+        mal_lookup = mal_lookup.split('/')[-1]
+
+    if mal_lookup:
+        return HttpResponseRedirect('/user/%s' % mal_lookup)
+
+    return HttpResponseRedirect('/')
 
 
 def user(request, user_id):

@@ -18,8 +18,8 @@
     <div class="contentRow col-md-12">No figures were found for the following anime</div>
     <div class="contentRow col-md-12">
         {% for anime_obj in nofigs_list %}
-            <div class="gridObj col-md-2">{% show_anime anime_obj %}</div>
-            {% if forloop.counter|divisibleby:6 %}
+            <div class="gridObj col-md-10ths col-xs-10ths">{% show_anime anime_obj %}</div>
+            {% if forloop.counter|divisibleby:10 %}
                 <div class="clearfix visible-md-block"></div>
             {% endif %}
         {% endfor %}
