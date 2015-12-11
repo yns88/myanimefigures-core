@@ -47,7 +47,7 @@ class Figure(models.Model):
     mfc_id = models.IntegerField(unique=True)
     barcode = models.CharField(max_length=16, null=True)
     name = models.CharField(max_length=255)
-    release_date = models.DateTimeField(null=True)
+    release_date = models.DateTimeField(null=True, db_index=True)
     price = models.IntegerField(null=True)  # in JPY
     category = models.IntegerField(null=True)
     last_updated = models.DateTimeField(auto_now=True)

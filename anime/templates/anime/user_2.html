@@ -12,34 +12,13 @@
     <div class="contentHeader">
         <h1>{{ mal_name }}'s currently watching anime</h1>
     </div>
-    {% for anime_obj in watching_list %}
-    <div class="contentRow col-md-12">
-        <div class="animeFrame col-md-3">
-            <div class="gridObj">
-                <div class="gridImage"><img src="{{ anime_obj.image_url }}"/></div>
-                <div class="gridText">{{ anime_obj.title }}</div>
-            </div>
-        </div>
-        <div class="figureFrame col-md-9">
-            {% for figure in anime_obj.figures.get_date_ordered|slice:":12" %}
-            <div class="gridObj col-md-2">
-                <div class="gridImage"><a href="http://myfigurecollection.net/item/{{ figure.mfc_id }}">
-                    <img src="{{ figure.image_url }}"/>
-                </a></div>
-                <div class="gridTextContainer">
-                    <div class="gridText"><a href="http://myfigurecollection.net/item/{{ figure.mfc_id }}">
-                        {{ figure.truncated_name }}
-                    </a></div>
-                    <div class="gridText">{{ figure.release_date.date }}</div>
-                </div>
-            </div>
-            {% if forloop.counter|divisibleby:6 %}
-            <div class="clearfix visible-md-block"></div>
-            {% endif %}
-            {% endfor %}
-        </div>
+    {% show_content_rows watching watching_nofigs %}
+</div>
+<div class="mainContent col-md-10 col-md-offset-1 col-xs-12">
+    <div class="contentHeader">
+        <h1>{{ mal_name }}'s recently completed anime</h1>
     </div>
-    {% endfor %}
+    {% show_content_rows recently_completed completed_nofigs %}
 </div>
 </body>
 </html>

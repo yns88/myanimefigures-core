@@ -13,9 +13,12 @@ logger = logging.getLogger(__name__)
 
 ANIME_LIST_GET = 'http://myanimelist.net/malappinfo.php?u=%s&status=all&type=anime'
 FIGURE_SEARCH = 'http://myfigurecollection.net/api.php?mode=search&keywords=%s'
-MAX_ANIMES = 20
+RECENTLY_COMPLETED_COUNT = 5
+MAX_WATCHING_COUNT = 20
+RECENT_FIGURES_COUNT = 12
 MFC_FIGURE_ROOT_ID = '0'
 FIGURE_CACHE_DURATION = datetime.timedelta(days=1)
+INCLUDE_STATUSES = ['1', '2']
 
 
 def index(request):
@@ -26,31 +29,71 @@ def sanitize_title(title):
     return title.lstrip(' ').rstrip(' ').rstrip('(TV)')
 
 
-def get_watching_list(user_id):
+def get_series_obj(anime_xml):
+    series = AnimeSeries.objects.create_or_update(
+        mal_id=anime_xml.find('series_animedb_id').text,
+        defaults={
+            'image_url': anime_xml.find('series_image').text,
+            'title': anime_xml.find('series_title').text
+        },
+    )
+    # Make sure figures are up to date
+    last_figure_calc = series.last_figure_calc
+    cache_cutoff = datetime.datetime.utcnow() - FIGURE_CACHE_DURATION
+    if not last_figure_calc or last_figure_calc < cache_cutoff:
+        series, figure_count = recalculate_figures(series)
+    else:
+        figure_count = series.figures.count()
+
+    return series, figure_count
+
+
+def get_recent_figures(mal_ids):
+    mal_figures = Figure.objects.filter(anime__mal_id__in=mal_ids)
+    return mal_figures.order_by('-release_date')[:RECENT_FIGURES_COUNT]
+
+
+def get_anime_list(user_id):
     response = requests.get(ANIME_LIST_GET % user_id)
-    watching_list = []
+    watching = []
+    watching_nofigs = []
+    recently_completed = []
+    completed_nofigs = []
+    all_completed_xml = []  # [(anime_xml, last_updated_ts)]
+    all_mal_ids = []
     anime_list_xml = ElementTree.fromstring(response.content)
     for anime in anime_list_xml.findall('anime'):
-        if anime.find('my_status').text == '1':
-            series = AnimeSeries.objects.create_or_update(
-                mal_id=anime.find('series_animedb_id').text,
-                defaults={
-                    'image_url': anime.find('series_image').text,
-                    'title': anime.find('series_title').text
-                },
-            )
-            # Make sure figures are up to date
-            last_figure_calc = series.last_figure_calc
-            cache_cutoff = datetime.datetime.utcnow() - FIGURE_CACHE_DURATION
-            if not last_figure_calc or last_figure_calc < cache_cutoff:
-                series = recalculate_figures(series)
+        my_status = anime.find('my_status').text
+        if my_status not in INCLUDE_STATUSES:
+            continue
 
-            watching_list.append(series)
-            if len(watching_list) >= MAX_ANIMES:
-                break
+        all_mal_ids.append(anime.find('series_animedb_id').text)
+        if anime.find('my_status').text == '2':
+            all_completed_xml.append((anime, anime.find('my_last_updated').text))
 
-    logger.info('Found %d watching anime', len(watching_list))
-    return watching_list
+        if anime.find('my_status').text == '1' and len(watching) <= MAX_WATCHING_COUNT:
+            series, figure_count = get_series_obj(anime)
+            if figure_count:
+                watching.append(series)
+            else:
+                watching_nofigs.append(series)
+
+    all_completed_xml.sort(key=lambda _, last_updated_ts: last_updated_ts, reverse=True)
+    for anime, _ in all_completed_xml[:RECENTLY_COMPLETED_COUNT]:
+        series, figure_count = get_series_obj(anime)
+        if figure_count:
+            recently_completed.append(series)
+        else:
+            completed_nofigs.append(series)
+
+    logger.info('Found %d watching anime, %d completed anime', len(watching), len(recently_completed))
+    return {
+        'watching': watching,
+        'recently_completed': recently_completed,
+        'watching_nofigs': watching_nofigs,
+        'completed_nofigs': completed_nofigs,
+        'all_mal_ids': all_mal_ids,
+    }
 
 
 def recalculate_figures(anime_series):
@@ -82,9 +125,14 @@ def recalculate_figures(anime_series):
     anime_series.figures.add(*figures)
     anime_series.last_figure_calc = datetime.datetime.utcnow()
     anime_series.save(update_fields=['last_figure_calc'])
-    return anime_series
+    return anime_series, len(figures)
 
 
 def user(request, user_id):
-    watching_list = get_watching_list(user_id)
-    return render(request, 'anime/user_2.html', {'mal_name': user_id, 'watching_list': watching_list})
+    series_objs = get_anime_list(user_id)
+    response_fields = {
+        'mal_name': user_id,
+        'recent_figures': get_recent_figures(series_objs['all_mal_ids']),
+    }
+    response_fields.update(series_objs)
+    return render(request, 'anime/user_2.html', response_fields)

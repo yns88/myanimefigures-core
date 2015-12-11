@@ -1,0 +1,23 @@
+{% for anime_obj in series_list %}
+    <div class="contentRow col-md-12">
+        <div class="animeFrame col-md-3">
+            <div class="gridObj">{% show_anime anime_obj %}</div>
+        </div>
+        <div class="figureFrame col-md-9">
+            {% for figure in anime_obj.figures.get_date_ordered|slice:":12" %}
+                <div class="gridObj col-md-2">{% show_figure figure %}</div>
+                {% if forloop.counter|divisibleby:6 %}
+                    <div class="clearfix visible-md-block"></div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+{% endfor %}
+{% if nofigs_list %}
+    <div class="contentRow col-md-12">No figures were found for the following anime</div>
+    <div class="contentRow col-md-12">
+        {% for anime_obj in nofigs_list %}
+            <div class="gridObj col-md-2">{% show_anime anime_obj %}</div>
+        {% endfor %}
+    </div>
+{% endif %}
