@@ -9,6 +9,9 @@
     <link rel="stylesheet" type="text/css" href="{% static 'anime/anime.css' %}" />
 </head>
 <body>
+<div class="navHeader col-md-6 col-md-offset-3">
+    <a href="/">MyAnimeFigures</a>
+</div>
 <div class="mainContent col-md-10 col-md-offset-1 col-xs-12">
     <div class="contentHeader">
         <h1>{{ mal_name }}'s currently watching anime</h1>
@@ -25,12 +28,16 @@
     <div class="contentHeader">
         <h1>Recent and upcoming figures from {{ mal_name }}'s anime list</h1>
     </div>
-    {% for figure in recent_figures %}
-        <div class="gridObj col-md-2">{% show_figure figure %}</div>
-        {% if forloop.counter|divisibleby:6 %}
-            <div class="clearfix visible-md-block"></div>
-        {% endif %}
-    {% endfor %}
+    <div class="contentBody recentFigures">
+        <div class="contentRow">
+            {% for figure in recent_figures %}
+                <div class="gridObj col-md-2">{% show_figure figure %}</div>
+                {% if forloop.counter|divisibleby:6 %}
+                    <div class="clearfix visible-md-block"></div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
 </div>
 </body>
 </html>
