@@ -3,6 +3,10 @@
     padding: 0;
 }
 
+.contentHeader h1 {
+
+}
+
 .navHeader {
     text-align: center;
 }
@@ -24,8 +28,16 @@
     padding: 10pt 0 10pt 0;
 }
 
-.animeFrame .gridText {
+.animeFrame {
     text-align: center;
+}
+
+.animeText-md {
+    font-size: 12pt;
+}
+
+.animeText-xs {
+    font-size: 9pt;
 }
 
 .figureFrame .gridImage {
@@ -33,8 +45,10 @@
     border-radius: 3pt;
 }
 
-.figureFrame .gridText {
-    font-size: 9pt;
+.figureFrame .gridText,
+.recentFigures .gridText,
+.col-md-10ths .gridText {
+    font-size: 7pt;
 }
 
 .noFiguresFrame {
@@ -44,6 +58,10 @@
 .noFiguresFrame .gridImage {
     border: 2pt solid #A57B74;
     border-radius: 3pt;
+}
+
+.noFiguresFrame .gridText {
+    overflow: hidden;
 }
 
 .recentFigures .contentRow {
@@ -72,10 +90,6 @@
     padding-bottom: 10pt;
 }
 
-.col-md-10ths .gridText {
-    font-size: 7pt;
-}
-
 
 .col-xs-10ths,
 .col-sm-10ths,
@@ -85,6 +99,18 @@
     min-height: 1px;
     padding-right: 10pt;
     padding-left: 10pt;
+}
+
+.col-xs-5ths {
+    position: relative;
+    min-height: 1px;
+    padding-right: 10pt;
+    padding-left: 10pt;
+}
+
+.col-xs-5ths {
+    width: 20%;
+    float: left;
 }
 
 .col-xs-10ths {

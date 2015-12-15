@@ -1,16 +1,19 @@
 {% load user_extras %}
-<div class="contentBody col-md-12">
+<div class="contentBody col-xs-12 col-md-12">
 <div class="wrapper">
     {% for anime_obj in series_list %}
-        <div class="contentRow col-md-12">
-            <div class="animeFrame col-md-3">
+        <div class="contentRow col-xs-12 col-md-12">
+            <div class="animeFrame col-md-3 col-xs-3">
                 <div class="gridObj">{% show_anime anime_obj %}</div>
             </div>
-            <div class="figureFrame col-md-9">
-                {% for figure in anime_obj.figures.get_date_ordered|slice:":12" %}
-                    <div class="gridObj col-md-2">{% show_figure figure %}</div>
+            <div class="figureFrame col-xs-9 col-md-9">
+                {% for figure in anime_obj.figures.get_date_ordered|slice:"0:12" %}
+                    <div class="gridObj col-xs-4 col-md-2">{% show_figure figure %}</div>
                     {% if forloop.counter|divisibleby:6 %}
-                        <div class="clearfix visible-md-block"></div>
+                        <div class="clearfix hidden-xs-down"></div>
+                    {% endif %}
+                    {% if forloop.counter|divisibleby:3 %}
+                        <div class="clearfix hidden-sm-up"></div>
                     {% endif %}
                 {% endfor %}
             </div>
@@ -19,12 +22,15 @@
 </div>
 {% if nofigs_list %}
     <div class="wrapper">
-        <div class="contentRow col-md-12 nobg">No figures were found for the following anime</div>
-        <div class="contentRow col-md-12 noFiguresFrame">
+        <div class="contentRow col-xs-12 col-md-12 nobg">No figures were found for the following anime</div>
+        <div class="contentRow col-xs-12 col-md-12 noFiguresFrame">
             {% for anime_obj in nofigs_list %}
-                <div class="gridObj col-md-10ths col-xs-10ths">{% show_anime anime_obj %}</div>
+                <div class="gridObj col-md-10ths col-xs-5ths">{% show_anime anime_obj %}</div>
                 {% if forloop.counter|divisibleby:10 %}
-                    <div class="clearfix visible-md-block"></div>
+                    <div class="clearfix hidden-xs-down"></div>
+                {% endif %}
+                {% if forloop.counter|divisibleby:5 %}
+                    <div class="clearfix hidden-sm-up"></div>
                 {% endif %}
             {% endfor %}
         </div>

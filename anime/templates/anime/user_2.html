@@ -4,36 +4,40 @@
 {% load user_extras %}
 <head lang="en">
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title></title>
     <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.min.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'anime/anime.css' %}" />
 </head>
 <body>
 <div class="navHeader col-md-6 col-md-offset-3">
-    <a href="/">MyAnimeFigures</a>
+    <a href="/"><h2>MyAnimeFigures</h2></a>
 </div>
-<div class="mainContent col-md-10 col-md-offset-1 col-xs-12">
+<div class="mainContent container col-xs-12 col-md-10 col-md-offset-1">
     <div class="contentHeader">
         <h1>{{ mal_name }}'s currently watching anime</h1>
     </div>
     {% show_content_rows watching watching_nofigs %}
 </div>
-<div class="mainContent col-md-10 col-md-offset-1 col-xs-12">
+<div class="mainContent container col-xs-12 col-md-10 col-md-offset-1">
     <div class="contentHeader">
         <h1>{{ mal_name }}'s recently completed anime</h1>
     </div>
     {% show_content_rows recently_completed completed_nofigs %}
 </div>
-<div class="mainContent col-md-10 col-md-offset-1 col-xs-12">
+<div class="mainContent container col-xs-12 col-md-10 col-md-offset-1">
     <div class="contentHeader">
-        <h1>Recent and upcoming figures from {{ mal_name }}'s anime list</h1>
+        <h2>Recent and upcoming figures from {{ mal_name }}'s anime list</h2>
     </div>
     <div class="contentBody recentFigures">
         <div class="contentRow">
             {% for figure in recent_figures %}
-                <div class="gridObj col-md-2">{% show_figure figure %}</div>
+                <div class="gridObj col-md-2 col-xs-4">{% show_figure figure %}</div>
                 {% if forloop.counter|divisibleby:6 %}
-                    <div class="clearfix visible-md-block"></div>
+                    <div class="clearfix hidden-xs-down"></div>
+                {% endif %}
+                {% if forloop.counter|divisibleby:3 %}
+                    <div class="clearfix hidden-sm-up"></div>
                 {% endif %}
             {% endfor %}
         </div>
