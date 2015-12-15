@@ -3,17 +3,14 @@
     padding: 0;
 }
 
-.contentHeader h1 {
-
+.contentHeader {
+    padding-top: 10pt;
+    padding-bottom: 10pt;
 }
 
-.navHeader {
+.navHeader,
+.animeFrame {
     text-align: center;
-}
-
-.gridImage img {
-    max-width:100%;
-    max-height:200pt;
 }
 
 .animeFrame {
@@ -28,49 +25,9 @@
     padding: 10pt 0 10pt 0;
 }
 
-.animeFrame {
-    text-align: center;
-}
-
-.animeText-md {
-    font-size: 12pt;
-}
-
-.animeText-xs {
-    font-size: 9pt;
-}
-
-.figureFrame .gridImage {
-    border: 2pt solid #A57B74;
-    border-radius: 3pt;
-}
-
-.figureFrame .gridText,
-.recentFigures .gridText,
-.col-md-10ths .gridText {
-    font-size: 7pt;
-}
-
-.noFiguresFrame {
-    padding: 10pt 0 10pt 0;
-}
-
-.noFiguresFrame .gridImage {
-    border: 2pt solid #A57B74;
-    border-radius: 3pt;
-}
-
-.noFiguresFrame .gridText {
-    overflow: hidden;
-}
-
+.noFiguresFrame,
 .recentFigures .contentRow {
     padding: 10pt 0 10pt 0;
-}
-
-.recentFigures .gridImage {
-    border: 3pt solid #A57B74;
-    border-radius: 5pt;
 }
 
 .contentRow:nth-child(odd) {
@@ -85,11 +42,49 @@
     background-color: #EEE5E4;
 }
 
-.contentHeader {
-    padding-top: 10pt;
-    padding-bottom: 10pt;
+
+/* grid text style */
+
+.figureFrame .gridText,
+.recentFigures .gridText,
+.col-md-10ths .gridText {
+    font-size: 7pt;
 }
 
+.noFiguresFrame .gridText {
+    overflow: hidden;
+}
+
+.animeText-md {
+    font-size: 12pt;
+}
+
+.animeText-xs {
+    font-size: 9pt;
+    overflow: hidden;
+}
+
+/* grid image style */
+
+.gridImage img {
+    max-width:100%;
+    max-height:200pt;
+}
+
+.noFiguresFrame .gridImage,
+.figureFrame .gridImage {
+    border: 2pt solid #A57B74;
+    border-radius: 3pt;
+}
+
+.recentFigures .gridImage {
+    border: 3pt solid #A57B74;
+    border-radius: 5pt;
+}
+
+
+
+/* Tools for 10ths and 5ths columns */
 
 .col-xs-10ths,
 .col-sm-10ths,
@@ -138,6 +133,8 @@
         float: left;
     }
 }
+
+/* Force white bg for text frames */
 
 .nobg {
     border-bottom: 2pt solid #A57B74;
