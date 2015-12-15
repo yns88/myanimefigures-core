@@ -98,7 +98,6 @@ def get_anime_list(user_id):
         else:
             completed_nofigs.append(series)
 
-    logger.info('Found %d watching anime, %d completed anime', len(watching), len(recently_completed))
     return {
         'watching': watching,
         'recently_completed': recently_completed,
@@ -153,6 +152,7 @@ def user_lookup(request):
 
 
 def user(request, user_id):
+    logger.info('Looking up anime list for %s' % user_id)
     try:
         series_objs = get_anime_list(user_id)
     except AnimeListError as e:
