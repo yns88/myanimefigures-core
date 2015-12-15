@@ -13,18 +13,28 @@
 <div class="navHeader col-md-6 col-md-offset-3">
     <a href="/"><h2>MyAnimeFigures</h2></a>
 </div>
+{% if watching %}
 <div class="mainContent container col-xs-12 col-md-10 col-md-offset-1">
     <div class="contentHeader">
         <h1>{{ mal_name }}'s currently watching anime</h1>
     </div>
     {% show_content_rows watching watching_nofigs %}
 </div>
+{% endif %}
+{% if recently_completed %}
 <div class="mainContent container col-xs-12 col-md-10 col-md-offset-1">
     <div class="contentHeader">
         <h1>{{ mal_name }}'s recently completed anime</h1>
     </div>
     {% show_content_rows recently_completed completed_nofigs %}
 </div>
+{% endif %}
+{% if not watching and not recently_completed %}
+    <div class="alert alert-warning col-md-12">
+        Unfortunately, no figures were found for any of {{ mal_name }}'s currently watching or recently completed anime.
+    </div>
+{% endif %}
+{% if recent_figures %}
 <div class="mainContent container col-xs-12 col-md-10 col-md-offset-1">
     <div class="contentHeader">
         <h2>Recent and upcoming figures from {{ mal_name }}'s anime list</h2>
@@ -43,5 +53,6 @@
         </div>
     </div>
 </div>
+{% endif %}
 </body>
 </html>

@@ -3,6 +3,7 @@ import dateutil.parser
 import logging
 from xml.etree import ElementTree
 
+from django.contrib import messages
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
 import requests
@@ -20,6 +21,11 @@ RECENT_FIGURES_COUNT = 12
 MFC_FIGURE_ROOT_ID = '0'
 FIGURE_CACHE_DURATION = datetime.timedelta(days=1)
 INCLUDE_STATUSES = ['1', '2']
+
+
+class AnimeListError(Exception):
+    def __init__(self, msg):
+        self.msg = msg
 
 
 def index(request):
@@ -63,6 +69,11 @@ def get_anime_list(user_id):
     all_completed_xml = []  # [(anime_xml, last_updated_ts)]
     all_mal_ids = []
     anime_list_xml = ElementTree.fromstring(response.content)
+
+    anime_list_error = anime_list_xml.find('error')
+    if anime_list_error != None:
+        raise AnimeListError(anime_list_error.text)
+
     for anime in anime_list_xml.findall('anime'):
         my_status = anime.find('my_status').text
         if my_status not in INCLUDE_STATUSES:
@@ -142,7 +153,11 @@ def user_lookup(request):
 
 
 def user(request, user_id):
-    series_objs = get_anime_list(user_id)
+    try:
+        series_objs = get_anime_list(user_id)
+    except AnimeListError as e:
+        messages.error(request, 'Error looking up %s: %s' % (user_id, e.msg))
+        return HttpResponseRedirect('/')
     response_fields = {
         'mal_name': user_id,
         'recent_figures': get_recent_figures(series_objs['all_mal_ids']),
