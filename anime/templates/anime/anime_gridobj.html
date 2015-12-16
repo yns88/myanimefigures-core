@@ -1,3 +1,5 @@
-<div class="gridImage"><img class="center-block" src="{{ anime_obj.image_url }}"/></div>
+<div class="gridImage"><img src="{{ anime_obj.image_url }}"/></div>
+{% if show_text %}
 <div class="gridText animeText-md hidden-xs-down">{{ anime_obj.title }}</div>
 <div class="gridText animeText-xs hidden-sm-up">{{ anime_obj.title }}</div>
+{% endif %}

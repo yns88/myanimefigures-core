@@ -42,11 +42,11 @@
     <div class="contentBody recentFigures">
         <div class="contentRow">
             {% for figure in recent_figures %}
-                <div class="gridObj col-md-2 col-xs-4">{% show_figure figure %}</div>
-                {% if forloop.counter|divisibleby:6 %}
+                <div class="gridObj col-md-3 col-xs-6">{% show_figure figure %}</div>
+                {% if forloop.counter|divisibleby:4 %}
                     <div class="clearfix hidden-xs-down"></div>
                 {% endif %}
-                {% if forloop.counter|divisibleby:3 %}
+                {% if forloop.counter|divisibleby:2 %}
                     <div class="clearfix hidden-sm-up"></div>
                 {% endif %}
             {% endfor %}

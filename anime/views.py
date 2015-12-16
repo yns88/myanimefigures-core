@@ -17,7 +17,7 @@ ANIME_LIST_GET = 'http://myanimelist.net/malappinfo.php?u=%s&status=all&type=ani
 FIGURE_SEARCH = 'http://myfigurecollection.net/api.php?mode=search&keywords=%s'
 RECENTLY_COMPLETED_COUNT = 10
 MAX_WATCHING_COUNT = 20
-RECENT_FIGURES_COUNT = 12
+RECENT_FIGURES_COUNT = 24
 MFC_FIGURE_ROOT_ID = '0'
 FIGURE_CACHE_DURATION = datetime.timedelta(days=1)
 INCLUDE_STATUSES = ['1', '2']
@@ -57,7 +57,7 @@ def get_series_obj(anime_xml):
 
 def get_recent_figures(mal_ids):
     mal_figures = Figure.objects.filter(animeseries__mal_id__in=mal_ids)
-    return list(mal_figures.order_by('-release_date')[:RECENT_FIGURES_COUNT])[::-1]
+    return list(mal_figures.order_by('-release_date')[:RECENT_FIGURES_COUNT])
 
 
 def get_anime_list(user_id):

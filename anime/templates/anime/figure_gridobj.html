@@ -1,9 +1,9 @@
-<div class="gridImage"><a href="http://myfigurecollection.net/item/{{ figure.mfc_id }}">
+<div class="gridImage col-md-5 col-xs-5"><a href="http://myfigurecollection.net/item/{{ figure.mfc_id }}">
     <img src="{{ figure.image_url }}"/>
 </a></div>
-<div class="gridTextContainer">
-    <div class="gridText"><a href="http://myfigurecollection.net/item/{{ figure.mfc_id }}">
-        {{ figure.truncated_name }}
+<div class="gridTextContainer col-md-5 col-xs-5">
+    <div class="gridText figureText"><a href="http://myfigurecollection.net/item/{{ figure.mfc_id }}">
+        {{ figure.name }}
     </a></div>
-    <div class="gridText">{{ figure.release_date.date }}</div>
+    <div class="gridText dateText">{{ figure.release_date.date }}</div>
 </div>
