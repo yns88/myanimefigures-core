@@ -1,6 +1,13 @@
 import os
 from setuptools import setup
 
+from pip.req import parse_requirements
+
+
+# Parse requirements from requirements.txt
+install_reqs = parse_requirements('requirements.txt')
+reqs = [str(ir.req) for ir in install_reqs]
+
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
@@ -16,4 +23,5 @@ setup(
     long_description=read('README.md'),
     packages=['anime'],
     include_package_data=True,
+    install_requires=reqs,
 )
