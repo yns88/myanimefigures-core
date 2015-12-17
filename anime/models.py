@@ -31,7 +31,7 @@ class FigureManager(AnimeManager):
     def get_date_ordered(self):
         qs = self.order_by('-release_date')
         qs_null_annotated = qs.extra(select={'release_date_null': 'release_date is null'})
-        return qs_null_annotated.extra(order_by=['release_date_null'])
+        return qs_null_annotated.extra(order_by=['-release_date', 'release_date_null'])
 
 
 class AnimeSeries(models.Model):
