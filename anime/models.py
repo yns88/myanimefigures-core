@@ -44,6 +44,10 @@ class AnimeSeries(models.Model):
 
     objects = AnimeManager()
 
+    @property
+    def mal_url(self):
+        return 'http://myanimelist.net/anime/%d' % self.mal_id
+
 
 class Figure(models.Model):
     mfc_id = models.IntegerField(unique=True)
