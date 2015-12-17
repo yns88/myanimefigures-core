@@ -56,7 +56,7 @@ def get_series_obj(anime_xml):
 
 
 def get_recent_figures(mal_ids):
-    mal_figures = Figure.objects.filter(animeseries__mal_id__in=mal_ids)
+    mal_figures = Figure.objects.filter(animeseries__mal_id__in=mal_ids, release_date__isnull=False)
     return list(mal_figures.order_by('-release_date')[:RECENT_FIGURES_COUNT])
 
 
