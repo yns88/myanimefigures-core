@@ -17,6 +17,7 @@ def show_figure(figure):
 def show_content_rows(series_list, nofigs_list):
     return {'series_list': series_list, 'nofigs_list': nofigs_list}
 
+
 @register.inclusion_tag('anime/favicon.html')
 def favicon():
     return {}
