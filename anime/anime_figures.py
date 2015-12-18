@@ -48,12 +48,12 @@ def get_series_obj(anime_xml, mal_id_to_series, series_id_to_figures):
     # Do a real-time figure calculation if we've never seen this series before
     last_figure_calc = series.last_figure_calc
     if not last_figure_calc:
-        series, figure_count = recalculate_figures(series)
+        series, figures = recalculate_figures(series)
+        series_id_to_figures[series.id] = figures
     else:
         figures = series_id_to_figures.get(series.id, [])
-        figure_count = len(figures)
 
-    return series, figure_count
+    return series, len(figures)
 
 
 def xml_to_series_lists(series_xml, mal_id_to_series, series_id_to_figures):
@@ -183,4 +183,4 @@ def recalculate_figures(anime_series):
     anime_series.figures.add(*figures)
     anime_series.last_figure_calc = datetime.datetime.utcnow()
     anime_series.save(update_fields=['last_figure_calc'])
-    return anime_series, len(figures)
+    return anime_series, figures
