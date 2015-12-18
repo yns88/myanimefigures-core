@@ -19,7 +19,7 @@
     <div class="contentHeader">
         <h1>{{ mal_name }}'s currently watching anime</h1>
     </div>
-    {% show_content_rows watching watching_nofigs %}
+    {% show_content_rows watching watching_nofigs series_id_to_figures %}
 </div>
 {% endif %}
 {% if recently_completed %}
@@ -27,7 +27,7 @@
     <div class="contentHeader">
         <h1>{{ mal_name }}'s recently completed anime</h1>
     </div>
-    {% show_content_rows recently_completed completed_nofigs %}
+    {% show_content_rows recently_completed completed_nofigs series_id_to_figures %}
 </div>
 {% endif %}
 {% if not watching and not recently_completed %}

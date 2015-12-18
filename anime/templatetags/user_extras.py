@@ -14,10 +14,19 @@ def show_figure(figure):
 
 
 @register.inclusion_tag('anime/content_rows.html')
-def show_content_rows(series_list, nofigs_list):
-    return {'series_list': series_list, 'nofigs_list': nofigs_list}
+def show_content_rows(series_list, nofigs_list, series_id_to_figures):
+    return {
+        'series_list': series_list,
+        'nofigs_list': nofigs_list,
+        'series_id_to_figures': series_id_to_figures,
+    }
 
 
 @register.inclusion_tag('anime/favicon.html')
 def favicon():
     return {}
+
+
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)

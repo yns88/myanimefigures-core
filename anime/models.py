@@ -29,8 +29,7 @@ class AnimeManager(models.Manager):
 
 class FigureManager(AnimeManager):
     def get_date_ordered(self):
-        qs = self.order_by('-release_date')
-        qs_null_annotated = qs.extra(select={'release_date_null': 'release_date is null'})
+        qs_null_annotated = self.extra(select={'release_date_null': 'release_date is null'})
         return qs_null_annotated.extra(order_by=['release_date_null', '-release_date'])
 
 
@@ -47,6 +46,16 @@ class AnimeSeries(models.Model):
     @property
     def mal_url(self):
         return 'http://myanimelist.net/anime/%d' % self.mal_id
+
+    def update_fields(self, fields):
+        is_dirty = False
+        for k, v in fields.iteritems():
+            if hasattr(object, k) and getattr(object, k) != v:
+                setattr(self, k, v)
+                is_dirty = True
+
+        if is_dirty:
+            self.save()
 
 
 class Figure(models.Model):

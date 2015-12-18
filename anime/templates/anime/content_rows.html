@@ -7,7 +7,7 @@
                 <div class="gridObj">{% show_anime anime_obj %}</div>
             </div>
             <div class="figureFrame col-xs-9 col-md-9">
-                {% for figure in anime_obj.figures.get_date_ordered|slice:"0:12" %}
+                {% for figure in series_id_to_figures|get_item:anime_obj.id|slice:"0:12" %}
                     <div class="gridObj col-xs-6 col-md-4">{% show_figure figure %}</div>
                     {% if forloop.counter|divisibleby:3 %}
                         <div class="clearfix hidden-xs-down"></div>
