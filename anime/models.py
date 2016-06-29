@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from django.db import models
 
 
-FIGURE_URL = 'http://s1.tsuki-board.net/pics/figure/%s.jpg'
+FIGURE_URL = 'https://s1.tsuki-board.net/pics/figure/%s.jpg'
 TRUNCATE_NAME_LEN = 50
 
 
