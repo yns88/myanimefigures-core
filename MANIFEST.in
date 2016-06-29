@@ -1,5 +1,7 @@
 include README.md
 include LICENSE
+recursive-include anime/management *
+recursive-include anime/migrations *
 recursive-include anime/static *
 recursive-include anime/templates *
 recursive-include anime/templatetags *
