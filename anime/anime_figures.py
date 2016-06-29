@@ -57,8 +57,6 @@ def get_series_obj(anime_xml, mal_id_to_series, series_id_to_figures):
 
 
 def xml_to_series_lists(series_xml, mal_id_to_series, series_id_to_figures):
-    # TODO revert
-    logger.info('TESTESTESTEST')
     series_with_figs = []
     series_nofigs = []
     for anime_xml in series_xml:
@@ -82,11 +80,7 @@ def get_mal_xml(user_id):
     all_mal_ids = []
     series_lookup_ids = []
 
-    # TODO revert
-    logger.info("requesting %s", ANIME_LIST_GET % user_id)
     response = requests.get(ANIME_LIST_GET % user_id)
-    # TODO revert
-    logger.info("requested %s", ANIME_LIST_GET % user_id)
     anime_list_xml = ElementTree.fromstring(response.content)
 
     anime_list_error = anime_list_xml.find('error')
