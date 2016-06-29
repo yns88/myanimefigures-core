@@ -82,6 +82,8 @@ def get_mal_xml(user_id):
     all_mal_ids = []
     series_lookup_ids = []
 
+    # TODO revert
+    logger.info("requesting %s", ANIME_LIST_GET % user_id)
     response = requests.get(ANIME_LIST_GET % user_id)
     # TODO revert
     logger.info("requested %s", ANIME_LIST_GET % user_id)
