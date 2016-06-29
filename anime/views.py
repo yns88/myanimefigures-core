@@ -26,6 +26,7 @@ def user_lookup(request):
 
 
 def user(request, user_id):
+    user_id = user_id.strip('/')
     logger.info('Looking up anime list for %s' % user_id)
     try:
         series_objs = get_anime_list(user_id)
