@@ -33,7 +33,7 @@ def get_series_obj(anime_xml, mal_id_to_series, series_id_to_figures):
     mal_id = int(anime_xml.find('series_animedb_id').text)
     series_fields = {
         'image_url': anime_xml.find('series_image').text,
-        'title': anime_xml.find('series_title').text
+        'title': anime_xml.find('series_title').text[:254]
     }
     series = mal_id_to_series.get(mal_id)
 
@@ -173,7 +173,7 @@ def recalculate_figures(anime_series):
                 mfc_id=figure_data.find('id').text,
                 defaults={
                     'barcode': figure_data.find('barcode').text,
-                    'name': figure_data.find('name').text,
+                    'name': figure_data.find('name').text[:254],
                     'release_date': release_date,
                     'price': figure_data.find('price').text,
                     'category': figure.find('category').find('id').text,
