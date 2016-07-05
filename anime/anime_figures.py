@@ -20,7 +20,7 @@ FIGURE_SEARCH = 'http://myfigurecollection.net/api.php?mode=search&keywords=%s'
 MFC_FIGURE_ROOT_ID = '0'
 RECENTLY_COMPLETED_COUNT = 10
 MAX_WATCHING_COUNT = 20
-RECENT_FIGURES_COUNT = 24
+RECENT_FIGURES_COUNT = 36
 INCLUDE_STATUSES = ['1', '2']
 
 
@@ -74,7 +74,7 @@ def get_recent_figures(mal_ids):
     return list(mal_figures.order_by('-release_date')[:RECENT_FIGURES_COUNT])
 
 
-def get_mal_xml(user_id):
+def get_mal_xml(user_id, recently_completed_count):
     all_completed_xml = []  # [(anime_xml, last_updated_ts)]
     watching_xml = []
     all_mal_ids = []
@@ -101,7 +101,7 @@ def get_mal_xml(user_id):
             series_lookup_ids.append(anime_xml.find('series_animedb_id').text)
 
     all_completed_xml.sort(key=lambda (_, last_updated_ts): last_updated_ts, reverse=True)
-    completed_xml = [tup[0] for tup in all_completed_xml[:RECENTLY_COMPLETED_COUNT]]
+    completed_xml = [tup[0] for tup in all_completed_xml[:recently_completed_count]]
     series_lookup_ids += [anime_xml.find('series_animedb_id').text for anime_xml in completed_xml]
 
     return watching_xml, completed_xml, series_lookup_ids, all_mal_ids
@@ -127,8 +127,8 @@ def get_bulk_lookups(series_lookup_ids):
     return mal_id_to_series, series_id_to_figures
 
 
-def get_anime_list(user_id):
-    watching_xml, completed_xml, series_lookup_ids, all_mal_ids = get_mal_xml(user_id)
+def get_anime_list(user_id, recently_completed_count=RECENTLY_COMPLETED_COUNT):
+    watching_xml, completed_xml, series_lookup_ids, all_mal_ids = get_mal_xml(user_id, recently_completed_count)
     mal_id_to_series, series_id_to_figures = get_bulk_lookups(series_lookup_ids)
     watching, watching_nofigs = xml_to_series_lists(
         watching_xml,
